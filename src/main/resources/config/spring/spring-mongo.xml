@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/data/mongo   
+          http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd   
+          http://www.springframework.org/schema/beans 
+          http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+          http://www.springframework.org/schema/util
+		  http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<!-- monogo mapping上下文 -->
+	<bean id="mappingContext" class="org.springframework.data.mongodb.core.mapping.MongoMappingContext" />  
+   
+    <!-- 默认Mongodb类型映射 -->  
+    <bean id="defaultMongoTypeMapper" class="org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper">  
+        <constructor-arg name="typeKey">  
+            <null />
+        </constructor-arg>  
+    </bean> 
+	
+	<mongo:mongo id="mongo" replica-set="${server.mongo.hostport}" >
+		<!-- 设定连接属性 -->
+		<mongo:options connections-per-host="${server.mongo.connectionsPerHost}"
+             threads-allowed-to-block-for-connection-multiplier="${server.mongo.threadsAllowedToBlockForConnectionMultiplier}"
+             connect-timeout="${server.mongo.connectTimeout}"
+             max-wait-time="${server.mongo.maxWaitTime}"
+             auto-connect-retry="${server.mongo.autoConnectRetry}"
+             socket-keep-alive="${server.mongo.socketKeepAlive}"
+             socket-timeout="${server.mongo.socketTimeout}"
+             slave-ok="${server.mongo.slaveOk}"
+             write-number="1"
+             write-timeout="0"
+             write-fsync="true"/>
+	</mongo:mongo>
+	
+	<mongo:db-factory id="mongoDbFactory"
+			 dbname="${server.mongo.dbName}" 
+			 mongo-ref="mongo" 
+			 username="${server.mongo.userName}" 
+			 password="${server.mongo.password}" />
+
+	<!-- 配置mongodb映射类型 -->  
+    <bean id="mappingMongoConverter" class="org.springframework.data.mongodb.core.convert.MappingMongoConverter">  
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />  
+        <constructor-arg name="mappingContext" ref="mappingContext" />  
+        <property name="typeMapper" ref="defaultMongoTypeMapper" />  
+    </bean> 
+
+	<!-- mongoTemplate 财道配置 -->
+	<bean id="mongoDBTemplate" class="org.springframework.data.mongodb.core.MongoTemplate"  autowire="byType">
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+		<constructor-arg name="mongoConverter" ref="mappingMongoConverter" />
+	</bean>
+	
+</beans>          
