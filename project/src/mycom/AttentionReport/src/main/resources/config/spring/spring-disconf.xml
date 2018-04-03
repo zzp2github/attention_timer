@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:cache="http://www.springframework.org/schema/cache" 
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+	     http://www.springframework.org/schema/beans
+	     http://www.springframework.org/schema/beans/spring-beans.xsd
+	     http://www.springframework.org/schema/tx 
+	     http://www.springframework.org/schema/tx/spring-tx.xsd
+	     http://www.springframework.org/schema/aop 
+	     http://www.springframework.org/schema/aop/spring-aop.xsd
+	     http://www.springframework.org/schema/context      
+	     http://www.springframework.org/schema/context/spring-context.xsd
+	     http://www.springframework.org/schema/cache 
+	     http://www.springframework.org/schema/cache/spring-cache.xsd
+	     http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+	     http://www.springframework.org/schema/task 
+	     http://www.springframework.org/schema/task/spring-task-4.1.xsd ">
+
+	<!-- disconf配置-开始 -->
+	<bean class="com.baidu.disconf.client.DisconfMgrBean" destroy-method="destroy">
+		<property name="scanPackage" value="com.hexun.attention.disconf" />
+	</bean>
+
+	<bean class="com.baidu.disconf.client.DisconfMgrBeanSecond" init-method="init" destroy-method="destroy" />
+
+	<bean id="configproperties_disconf" class="com.baidu.disconf.client.addons.properties.ReloadablePropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>classpath:config/properties/attention_log_mysql.properties</value>
+				<value>classpath:config/properties/teacher_mongodb.properties</value>
+				<value>classpath:config/properties/xxl-job-executor.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="propertyConfigurer" class="com.baidu.disconf.client.addons.properties.ReloadingPropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="propertiesArray">
+			<list>
+				<ref bean="configproperties_disconf" />
+			</list>
+		</property>
+	</bean>
+	<!-- disconf配置-结束 -->
+	
+</beans>                    

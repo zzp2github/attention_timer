@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hexun.attention.db.mysql.AttentionStatisticsMapper">
+	
+	<resultMap type="com.hexun.attention.domain.entity.AttentionStatistics" id="ASMap">
+		<result column="teacher_id" property="teacherId" />
+		<result column="add_attention_count" property="focusCount" />
+		<result column="cancel_attention_count" property="cancelCount" />
+		<result column="current_fans" property="currentFans" />
+		<result column="net_fans" property="netFocus" />
+		<result column="date" property="date" />
+	</resultMap>
+	
+	<!-- 插入关注统计 -->
+	<insert id="insertAttentionStatistics" parameterType="com.hexun.attention.domain.entity.AttentionStatistics">
+		insert into tb_attention_stat values (null, #{teacherId}, #{focusCount}, #{cancelCount}, #{currentFans}, #{date})
+	</insert>
+	
+	<!-- 批量插入关注关系统计 -->
+	<insert id="batchInsertAttentionStatistics" parameterType="java.util.List">
+		insert into tb_attention_stat (teacher_id, add_attention_count, cancel_attention_count, current_fans, date, operation_time) values 
+	    <foreach collection="list" item="item" index="index" separator="," >  
+	        (#{item.teacherId}, #{item.focusCount}, #{item.cancelCount}, #{item.currentFans}, #{item.date}, now())  
+	    </foreach>  
+	</insert>
+	
+	<!-- 查询老师关注关系统计记录信息 -->
+	<select id="getAttentions" resultMap="ASMap">
+		select * 
+		from tb_attention_stat
+		where 1=1
+		<if test="fromDate != null">
+			and date &gt;= #{fromDate}
+		</if>
+		<if test="toDate != null">
+			and date &lt;= #{toDate}
+		</if>
+		<if test="fixDate != null">
+			and date = #{fixDate}
+		</if>
+		<if test="tids != null">
+			and teacher_id in
+			<foreach collection="tids" item="tid" open="(" close=")" separator=",">
+		    	#{tid}
+		    </foreach>
+		</if>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+	<!-- 查询老师关注关系统计记录信息数量 -->
+	<select id="searchAttentionsCount" resultType="Integer" >
+		select count(*) 
+		from tb_attention_stat
+		where 1=1
+		<if test="fromDate != null">
+			and date &gt;= #{fromDate}
+		</if>
+		<if test="toDate != null">
+			and date &lt;= #{toDate}
+		</if>
+		<if test="fixDate != null">
+			and date = #{fixDate}
+		</if>
+		<if test="tids != null">
+			and teacher_id in
+			<foreach collection="tids" item="tid" open="(" close=")" separator=",">
+		    	#{tid}
+		    </foreach>
+		</if>
+	</select>
+	<!--查询合作者新增关注数、取消关注数、净增数、累计关注数-->
+	<select id="getAttentionSumByWhere" resultMap="ASMap">
+		select teacher_id,sum(IFNULL(add_attention_count,0)) add_attention_count,
+		sum(IFNULL(cancel_attention_count,0)) cancel_attention_count,
+		sum(IFNULL(add_attention_count,0)-IFNULL(cancel_attention_count,0)) net_fans,
+		sum(IFNULL(current_fans,0)) current_fans
+ 		from tb_attention_stat where 1=1
+ 		<if test="teacherIdList != null and teacherIdList.size > 0">
+			and teacher_id in
+			<foreach collection="teacherIdList" item="tid" open="(" close=")" separator=",">
+		    	#{tid}
+		    </foreach>
+		</if>
+		<if test="postTime != null and postTime != ''">
+			and date = DATE_FORMAT(#{postTime},'%Y-%m-%d')
+		</if>
+		group by teacher_id		
+	</select>
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hexun.attention.db.mysql.AttentionLogMapper">
+	
+	<resultMap type="com.hexun.attention.domain.entity.AttentionLog" id="AttentionLogMap">
+		<result column="attention_id" property="attentionId" />
+		<result column="user_id" property="userId" />
+		<result column="type" property="type" />
+		<result column="date" property="date" />
+	</resultMap>
+	
+	<!-- 查询某个老师的被关注/取消关注信息 -->
+	<select id="getTeacherAttention" resultMap="AttentionLogMap">
+		select * 
+		from tb_attention_log 
+		where attention_id = #{teacherId} and date = #{date}
+	</select>
+	
+	<!-- 批量查询老师被关注/取消关注的信息 -->
+	<select id="getTeacherAttentions" resultMap="AttentionLogMap">
+		select * 
+		from tb_attention_log 
+		where date = #{date} and
+			attention_id in 
+			<foreach collection="teacherIds" item="tid" open="(" close=")" separator=",">
+		    	#{tid}
+		    </foreach>
+	</select>
+
+</mapper>

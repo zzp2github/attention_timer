@@ -1,0 +1,5 @@
+0000000000000000000000000000000000000000 8a1939a6b8fad97df50b0be7afb2b62ab037a87a zhangzhipeng <zhangzhipeng@staff.hexun.com> 1501658645 +0800	branch: Created from origin/patch-1
+8a1939a6b8fad97df50b0be7afb2b62ab037a87a b4746a012a7a5967a2adcb4d4afdd5a079ed2e76 zhangzhipeng <zhangzhipeng@staff.hexun.com> 1502853750 +0800	commit: 加注释
+b4746a012a7a5967a2adcb4d4afdd5a079ed2e76 ddaad90adf07b1cbbf5a7d516bf23b67a20e8c9d zhangzhipeng <zhangzhipeng@staff.hexun.com> 1502863182 +0800	commit: 与master同步代码
+ddaad90adf07b1cbbf5a7d516bf23b67a20e8c9d 8e62fb87f77aac8383a8535c20e00dc9a52a4881 zhangzhipeng <zhangzhipeng@staff.hexun.com> 1502878049 +0800	commit: 提取url到属性文件
+8e62fb87f77aac8383a8535c20e00dc9a52a4881 3e9b8f7a13881c7e597d9ab55c3e3fec5b1d0ca1 zhangzhipeng <zhangzhipeng@staff.hexun.com> 1507704291 +0800	commit: 每个合作者的新增关注数、取消关注数、净增数、累计关注数

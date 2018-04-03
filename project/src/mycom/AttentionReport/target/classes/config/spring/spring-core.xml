@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:cache="http://www.springframework.org/schema/cache" 
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+	     http://www.springframework.org/schema/beans
+	     http://www.springframework.org/schema/beans/spring-beans.xsd
+	     http://www.springframework.org/schema/tx 
+	     http://www.springframework.org/schema/tx/spring-tx.xsd
+	     http://www.springframework.org/schema/aop 
+	     http://www.springframework.org/schema/aop/spring-aop.xsd
+	     http://www.springframework.org/schema/context      
+	     http://www.springframework.org/schema/context/spring-context.xsd
+	     http://www.springframework.org/schema/cache 
+	     http://www.springframework.org/schema/cache/spring-cache.xsd
+	     http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+	     http://www.springframework.org/schema/task 
+	     http://www.springframework.org/schema/task/spring-task-4.1.xsd ">
+	
+	<context:annotation-config />
+
+	<!-- 扫描spring注解 -->
+	<context:component-scan base-package="com.hexun.attention" />
+	
+	<!-- 加载配置文件 -->
+	<!-- 
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	   <property name="ignoreUnresolvablePlaceholders" value="true"/>
+	   <property name="locations">
+	      <list>
+	         <value>classpath:config/properties/attention_log_mysql.properties</value>
+	         <value>classpath:config/properties/teacher_mongodb.properties</value>
+	         <value>classpath:config/properties/xxl-job-executor.properties</value>
+	      </list>
+	    </property>
+	</bean>
+	 -->
+	
+	<import resource="classpath*:config/spring/spring-mongo.xml" />
+	<import resource="classpath*:config/spring/spring-mysql.xml" />
+	<import resource="classpath*:config/spring/spring-job.xml" />
+	<import resource="classpath*:config/spring/spring-disconf.xml" />
+</beans>                    
