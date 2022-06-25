@@ -32,7 +32,7 @@
 		<aspectj.version>1.7.4</aspectj.version>
 		<disconf.version>2.6.36</disconf.version>
 		<mongo.driver.version>2.13.0-rc2</mongo.driver.version>
-		<spring.data.mongo.version>1.6.2.RELEASE</spring.data.mongo.version>
+		<spring.data.mongo.version>3.3.5</spring.data.mongo.version>
 		<http.client.version>4.3.6</http.client.version>
 		<quartz.version>2.2.1</quartz.version>
 		<zookeeper.version>3.4.6</zookeeper.version>
