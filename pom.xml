@@ -35,7 +35,7 @@
 		<spring.data.mongo.version>1.6.2.RELEASE</spring.data.mongo.version>
 		<http.client.version>4.3.6</http.client.version>
 		<quartz.version>2.2.1</quartz.version>
-		<zookeeper.version>3.4.6</zookeeper.version>
+		<zookeeper.version>3.4.14</zookeeper.version>
 		<swagger.version>2.4.0</swagger.version>
 		<jackson.version>2.7.0</jackson.version>
 	</properties>
