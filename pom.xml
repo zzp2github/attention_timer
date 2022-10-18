@@ -37,7 +37,7 @@
 		<quartz.version>2.2.1</quartz.version>
 		<zookeeper.version>3.4.6</zookeeper.version>
 		<swagger.version>2.4.0</swagger.version>
-		<jackson.version>2.7.0</jackson.version>
+		<jackson.version>2.13.4.1</jackson.version>
 	</properties>
 
 	<dependencies>
